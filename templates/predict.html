@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Predict Disease - Potato Leaf Disease Detection</title>
+  <style>
+    body {
+      background-image: url("{{ url_for('static', filename='potato.jpg') }}");
+      background-size: cover;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+    }
+    .container {
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+      width: 100%;
+      margin: 0.5rem;
+    }
+    .display-4 {
+      color: #478083;
+      margin-bottom: 1rem;
+    }
+    .lead {
+      margin-bottom: 2rem;
+      font-size: 1.25rem;
+      color: #555;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-group label {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      background-color: #478383;
+      color:rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .form-group label:hover {
+      background-color: #346365;
+    }
+    .form-control-file {
+      display: none;
+    }
+    .btn-success {
+      background-color: #478381;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      color:rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn-success:hover {
+      background-color: #346560;
+    }
+    .result-container {
+      margin-top: 2rem;
+    }
+    .result {
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 0.5rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      margin-top: 1rem;
+    }
+    #result-text {
+      margin-bottom: 1rem;
+      color: #47837b;
+    }
+    .img-fluid {
+      max-width: 100%;
+      max-height: 300px;
+      width: auto;
+      height: auto;
+      border-radius: 10px;
+      margin-top: 1rem;
+      border: 5px solid #28a1a7;
+      transition: transform 0.3s ease;
+    }
+    .img-fluid:hover {
+      transform: scale(1.05);
+    }
+    .back-to-home {
+      margin-top: 1rem;
+    }
+    .back-to-home a {
+      color: #478381;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    .back-to-home a:hover {
+      color: #346560;
+    }
+    /* New section for displaying the treatment */
+    .treatment-recommendation {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .treatment-recommendation h3 {
+      color: #47837b;
+      margin-bottom: 10px;
+    }
+    .treatment-recommendation p {
+      color: #333;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="display-4">Predict Disease</h1>
+    <p class="lead">Upload an image of a potato leaf to detect the disease.</p>
+
+    <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="file" class="btn btn-success btn-block">Choose an image</label>
+        <input type="file" class="form-control-file" id="file" name="file" required hidden>
+      </div>
+      <button type="submit" class="btn btn-success btn-block">Upload and Predict</button>
+    </form>
+
+    {% if prediction %}
+    <div class="result-container" id="result">
+      <div class="result">
+        <h2 id="result-text">Prediction</h2>
+        <p>The predicted disease is: <strong>{{ prediction }}</strong></p>
+        <p>Confidence: <strong>{{ confidence }}%</strong></p>
+        <img src="{{ image_path }}" class="img-fluid" alt="Uploaded Image">
+      </div>
+
+      <!-- Treatment Recommendation -->
+      <div class="treatment-recommendation">
+        <h3>Treatment Recommendation</h3>
+        <p>{{ treatment }}</p>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="back-to-home">
+      <a href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+  </div>
+</body>
+</html>
