@@ -37,5 +37,5 @@ jupyter notebook potato_disease.ipynb
 - Deploy the model as a web application.
 
 ## Author
-Developed by [Your Name].
+Developed by Shubham Bikram Shah
 
